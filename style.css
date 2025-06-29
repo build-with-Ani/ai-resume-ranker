@@ -1,0 +1,365 @@
+/* Reset & base */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 30px;
+  background: #fff;
+  color: #222;
+  line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+h2, h3 {
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+button {
+  cursor: pointer;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+button:hover, button:focus {
+  background-color: #0056b3;
+  outline: none;
+}
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+textarea {
+  width: 100%;
+  font-family: monospace, monospace;
+  font-size: 14px;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+input[type="text"], input[type="search"] {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+input[type="text"]:focus, input[type="search"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Container for buttons */
+.buttons-row {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Results container */
+#resultsContainer {
+  margin-top: 30px;
+}
+#resultsContainer ol {
+  padding-left: 20px;
+}
+.result-item {
+  margin-bottom: 25px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 15px;
+}
+.result-item:last-child {
+  border-bottom: none;
+}
+
+/* Resume text styling */
+.resume-text {
+  background: #f8f8f8;
+  padding: 12px;
+  border-radius: 6px;
+  font-family: monospace, monospace;
+  font-size: 13px;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+}
+
+/* Highlight matched keywords */
+.keyword-matched {
+  background-color: #d4edda;
+  color: #155724;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+
+/* Highlight missing keywords */
+.keyword-missing {
+  text-decoration: underline;
+  text-decoration-color: #dc3545;
+  color: #721c24;
+  font-weight: 600;
+}
+
+/* Copy button style inside each result */
+.copyBtn {
+  background-color: #28a745;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+.copyBtn:hover, .copyBtn:focus {
+  background-color: #1e7e34;
+  outline: none;
+}
+
+/* File upload area styling */
+#fileUploadArea {
+  border: 2px dashed #007bff;
+  border-radius: 8px;
+  padding: 25px;
+  text-align: center;
+  color: #007bff;
+  font-weight: 600;
+  margin-bottom: 15px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+#fileUploadArea.dragover {
+  background-color: #e9f5ff;
+  border-color: #0056b3;
+}
+
+/* File list */
+#fileList {
+  margin-top: 10px;
+  list-style-type: disc;
+  padding-left: 20px;
+  max-height: 100px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+}
+
+/* Loading spinner */
+#loadingSpinner {
+  display: none;
+  margin-top: 15px;
+  text-align: center;
+}
+#loadingSpinner.show {
+  display: block;
+}
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Search input */
+#searchResults {
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+/* Score bar */
+.score-bar-container {
+  background-color: #eee;
+  height: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 5px 0 10px 0;
+  width: 100%;
+  max-width: 300px;
+}
+.score-bar {
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: 6px;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+body.dark-mode textarea,
+body.dark-mode input[type="text"],
+body.dark-mode input[type="search"] {
+  background-color: #1e1e1e;
+  border-color: #333;
+  color: #ddd;
+}
+body.dark-mode textarea:focus,
+body.dark-mode input[type="text"]:focus,
+body.dark-mode input[type="search"]:focus {
+  border-color: #66aaff;
+  outline: none;
+}
+body.dark-mode #fileUploadArea {
+  border-color: #66aaff;
+  color: #66aaff;
+  background-color: #222;
+}
+body.dark-mode #fileUploadArea.dragover {
+  background-color: #333;
+  border-color: #3399ff;
+}
+body.dark-mode #resultsContainer ol {
+  border-color: #333;
+}
+body.dark-mode .result-item {
+  border-bottom: 1px solid #444;
+}
+body.dark-mode .resume-text {
+  background-color: #222;
+  border-color: #444;
+  color: #eee;
+}
+body.dark-mode .keyword-matched {
+  background-color: #155724;
+  color: #d4edda;
+}
+body.dark-mode .keyword-missing {
+  text-decoration-color: #ff6b6b;
+  color: #ff8686;
+}
+body.dark-mode button {
+  background-color: #3399ff;
+  color: white;
+}
+body.dark-mode button:hover, body.dark-mode button:focus {
+  background-color: #0077ff;
+}
+
+/* Accessibility focus */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #3399ff;
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  body {
+    margin: 15px;
+  }
+  .buttons-row {
+    flex-direction: column;
+  }
+  button {
+    width: 100%;
+  }
+  #fileUploadArea {
+    padding: 20px 10px;
+  }
+  #resultsContainer ol {
+    padding-left: 10px;
+  }
+}
+/* Your existing CSS here ... */
+
+/* ==== ONBOARDING BANNER (Improvement #1) ==== */
+.onboarding-banner {
+  background-color: #007bff;
+  color: white;
+  padding: 20px 25px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  position: relative;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.onboarding-banner h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+}
+
+.onboarding-banner p {
+  margin: 6px 0;
+}
+
+/* Dismiss button */
+#dismissOnboarding {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background-color: rgba(255,255,255,0.3);
+  color: white;
+  border: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#dismissOnboarding:hover,
+#dismissOnboarding:focus {
+  background-color: white;
+  color: #007bff;
+  outline: none;
+}
+
+/* ==== FILTER INPUT HELP TEXT (Improvement #4) ==== */
+.section.card input#searchResults + .help-text {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  display: block;
+}
+
+/* ==== OPTIONAL: Animate onboarding fade-out ==== */
+.onboarding-banner.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  height: 0;
+  margin: 0;
+  padding: 0 25px;
+  overflow: hidden;
+}
+
+/* Responsive tweak for onboarding on smaller screens */
+@media (max-width: 600px) {
+  .onboarding-banner {
+    font-size: 1rem;
+    padding: 15px 20px;
+  }
+  #dismissOnboarding {
+    top: 10px;
+    right: 15px;
+  }
+}
