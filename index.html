@@ -1,46 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>AI Resume Ranker</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 30px;
-    }
-    textarea {
-      width: 100%;
-      height: 120px;
-      margin-bottom: 20px;
-      padding: 10px;
-      font-size: 14px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #result {
-      margin-top: 20px;
-      font-weight: bold;
-      font-size: 18px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Resume Ranker - Enhanced ATS</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- You can add icon fonts or libraries here if needed -->
 </head>
-  <body>
-    <h2> AI Resume Ranker - Multi Resume</h2>
+<body>
 
-    <label for="jobDesc">Job Description:</label><br>
-    <textarea id="jobDesc" placeholder="Paste the job description here..." rows="6"></textarea><br><br>
+  <header>
+    <h1>AI Resume Ranker</h1>
+    <div class="toggle-container">
+      <label for="darkModeToggle" class="tooltip" aria-label="Toggle dark mode">
+        Dark Mode
+        <input type="checkbox" id="darkModeToggle" aria-checked="false" role="switch" />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
 
-    <label for="resumesText">Candidate Resumes (separate each resume by a line with only <code>---</code>):</label><br>
-    <textarea id="resumesText" placeholder="Paste multiple resumes here, separated by a line with ---" rows="12"></textarea><br><br>
+  <main>
 
-    <button id="rankAllBtn">Rank All Resumes</button>
-    <button onclick="downloadPDF()">Download Report</button>
+    <!-- ONBOARDING / INSTRUCTION BANNER (Improvement #1) -->
+    <section id="onboardingBanner" class="onboarding-banner" role="region" aria-live="polite" aria-label="Instructions for first time users">
+      <h2>Welcome to AI Resume Ranker!</h2>
+      <p>Paste your Job Description and multiple resumes separated by <code>---</code> lines, or upload .txt files.</p>
+      <p>Click <strong>Rank All Resumes</strong> to see matching scores and keywords highlighted.</p>
+      <button id="dismissOnboarding" aria-label="Dismiss instructions">Got it!</button>
+    </section>
 
-    <div id="resultsContainer" style="margin-top: 30px;"></div>
+<!-- Load Sample Data Button -->
+<p class="sample-intro" style="margin-bottom: 4px; font-style: italic; color: #555;">
+    Want to give it a try with a sample?
+  </p>
+      <button id="loadSampleBtn" class="btn tooltip" aria-label="Load sample job description and resumes">
+        Load Sample Job & Resumes
+      </button>
+    </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="script.js"></script>
-  </body>
+    <!-- Section: Job Description -->
+    <section class="section card" aria-labelledby="jobDescLabel">
+      <h2 id="jobDescLabel">Job Description</h2>
+      <textarea id="jobDesc" aria-describedby="jobDescHelp" placeholder="Paste the job description here..." rows="6"></textarea>
+      <small id="jobDescHelp" class="help-text">Use clear keywords describing skills, role, and requirements.</small>
+    </section>
+
+    <!-- Section: Candidate Resumes Input -->
+    <section class="section card" aria-labelledby="resumesLabel">
+      <h2 id="resumesLabel">Candidate Resumes</h2>
+
+      <label for="resumesText" class="tooltip" aria-label="Paste multiple resumes separated by lines with ---">
+        Paste multiple resumes here (separate each resume by a line with <code>---</code>)
+      </label>
+      <textarea id="resumesText" placeholder="Paste multiple resumes here..." rows="12" aria-describedby="resumesHelp"></textarea>
+      <small id="resumesHelp" class="help-text">Or upload .txt files below</small>
+
+      <!-- File Upload with drag & drop -->
+      <div id="fileUploadArea" tabindex="0" aria-label="Drag and drop resumes here or use file selector" role="region" class="file-upload-area">
+        <p>Drag & Drop .txt files here or</p>
+        <input type="file" id="resumeFiles" multiple accept=".txt" aria-label="Upload multiple resume files" />
+      </div>
+      <ul id="fileList" aria-live="polite" class="file-list"></ul>
+
+    <!-- Section: Controls -->
+    <section class="section buttons" aria-label="Action buttons">
+      <button id="rankAllBtn" class="btn" aria-live="polite" aria-label="Rank all resumes against job description">
+        Rank All Resumes
+      </button>
+      <button id="downloadReportBtn" class="btn" aria-label="Download the ranking report as PDF">
+        Download Report
+      </button>
+    </section>
+
+    <!-- Section: Search / Filter Results -->
+    <section class="section card" aria-labelledby="searchLabel">
+      <h2 id="searchLabel">Filter Results</h2>
+      <input type="search" id="searchResults" placeholder="Filter resumes by keyword or score" aria-label="Filter ranked resumes" autocomplete="off" />
+      <!-- Improvement #4: Live filter help text -->
+      <small class="help-text">Start typing to filter resumes by keywords or score instantly.</small>
+    </section>
+
+    <!-- Section: Results Container -->
+    <section id="resultsContainer" class="section card" aria-live="polite" aria-label="Ranking results">
+      <!-- Results will be dynamically inserted here -->
+    </section>
+
+    <!-- Section: Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" role="status" aria-live="assertive" aria-hidden="true" hidden>
+      <div class="spinner"></div>
+      <span class="visually-hidden">Loading...</span>
+    </div>
+
+    <!-- Section: Save / Load Session (placeholders) -->
+    <section class="section card" aria-label="Save and load your session">
+      <button id="saveSessionBtn" class="btn" aria-label="Save current inputs and results locally">
+        Save Session
+      </button>
+      <button id="loadSessionBtn" class="btn" aria-label="Load saved inputs and results">
+        Load Session
+      </button>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2025 AI Resume Ranker. Developed by Ani.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
 </html>
